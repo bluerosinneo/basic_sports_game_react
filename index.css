@@ -1,0 +1,53 @@
+body{
+    background-color: beige;
+}
+
+.shots{
+    align-self: flex-start;
+    margin: 3px;
+    padding: 6px;
+    border: 3px solid darkgray;
+    font-family: 'Bangers', cursive;
+    font-size: 30px;
+    color: darkgray;
+    z-index: 1;
+}
+
+.score{
+    align-self:  flex-start;
+    margin: 3px;
+    padding: 6px;
+    border: 3px solid darkgray;
+    font-family: 'Bangers', cursive;
+    font-size: 30px;
+    color: darkgray;
+    z-index: 1;
+}
+
+.shootButton{
+    align-self: flex-end;
+    padding: 6px;
+    margin: 6px;
+    /* border: 3px solid darkgray; */
+    font-family: 'Bangers', cursive;
+    font-size: 30px;
+    /* color: darkgray; */
+    z-index: 1;
+}
+
+.teamSquare{
+    width: 300px;
+    height: 300px;
+    /* display: flex; */
+    background: no-repeat center center; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.innerTeamSquare{
+    height: 150px;
+    display: flex;
+    justify-content: space-around;
+}
