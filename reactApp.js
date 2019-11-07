@@ -11,7 +11,10 @@ class Team extends React.Component {
             score: 0,
             imageStyle: {
                 backgroundImage: `url(${this.props.logo})`
-            } 
+            },
+            noScoreSound: new Audio('airplane+cessna.wav'),
+            yesScoreSound: new Audio('claps3.wav'),
+            shotPercentage: 0
         }
     }
 
@@ -19,9 +22,17 @@ class Team extends React.Component {
         let theScore = this.scoreUp(this.state.score);
         let theShots = this.shotUp(this.state.shots);
 
+        if(theScore > this.state.score){
+            this.state.yesScoreSound.play();
+        }
+        else{
+            this.state.noScoreSound.play();
+        }
+
         this.setState({
             shots: theShots,
-            score: theScore
+            score: theScore,
+            shotPercentage: ((theScore/theShots)*100).toFixed(0)
         })
     }
 
@@ -30,12 +41,23 @@ class Team extends React.Component {
     }
 
     scoreUp(curShot) {
-        return ((Math.random() > 0.2) ? (curShot + 1) : curShot);
+        if((Math.random() > 0.2)){
+            // console.log(this.state.yesScoreSound)
+            // this.state.yesScoreSound.play();
+            return (curShot + 1);
+        }
+        else{
+            // console.log(this.state.noScoreSound)
+            // this.state.noScoreSound.play();
+            return (curShot);
+        }
+        // return ( ? (curShot + 1) : curShot);
     }
 
     render() {
-        return (<div>
+        let statClass = (this.state.shots === 0 ? "noShotsYet" : "yesShotsYet");
 
+        return (
             <div className="teamSquare" style={this.state.imageStyle}  >
                 <div className="innerTeamSquare">
                     <span className="shots">shots: {this.state.shots}</span>
@@ -45,19 +67,36 @@ class Team extends React.Component {
 
                 <div className="innerTeamSquare">
                     <button className="shootButton" onClick={this.shotHandler}>shoot</button>
+                    <span className={statClass}>acc: {this.state.shotPercentage}%</span>
                 </div>
             </div>
-
-        </div>)
+        )
     }
 }
 
+class Game extends React.Component{
+    constructor(props){
+        super(props)
+    }
+
+    render(){
+        return(
+            <div className="gameSpace">
+                <div className="gameHeading">Welcome to the {this.props.venue}</div>
+                <div classname="break"></div>
+                <div className="gameSpace">
+                    <Team name="Wales" logo="whales.jpg" />
+                    <Team name="Sailor" logo="sailors.jpg" />
+                </div>
+            </div>
+        )
+    }
+}
 function App(props) {
     return (
-        <div>
-            <Team name="Wales" logo="whales.jpg" />
-            <Team name="Sailor" logo="sailors.jpg" />
-        </div>
+
+            <Game venue="Water Way"/>
+
     )
 }
 
