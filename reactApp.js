@@ -20,6 +20,15 @@ function Team(props){
     )
 }
 
+function Scoreboard(props){
+    return(
+        <div className="infoBar">
+            <span className="itIsAThing">Home: {props.home}</span>
+            <span className="itIsAThing">Visiting: {props.visiting}</span>
+        </div>
+    )
+}
+
 class Game extends React.Component{
     constructor(props){
         super(props)
@@ -90,10 +99,7 @@ class Game extends React.Component{
         return(
             <div className="gameSpace">
                 <div className="infoBar">Welcome to the {this.props.venue}</div>
-                <div className="infoBar">
-                    <span className="itIsAThing">Home: {this.state.score[0]}</span>
-                    <span className="itIsAThing">Visiting: {this.state.score[1]}</span>
-                </div>
+                <Scoreboard home={this.state.score[0]} visiting={this.state.score[1]} />
                 <div className="break"></div>
                 <div className="gameSpace">
                     <Team
