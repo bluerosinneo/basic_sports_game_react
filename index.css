@@ -2,18 +2,8 @@ body{
     background-color: beige;
 }
 
-.shots{
-    align-self: flex-start;
-    margin: 3px;
-    padding: 6px;
-    border: 3px solid darkgray;
-    font-family: 'Bangers', cursive;
-    font-size: 30px;
-    color: darkgray;
-    z-index: 1;
-}
 
-.score{
+.itIsAThing{
     align-self:  flex-start;
     margin: 3px;
     padding: 6px;
@@ -24,7 +14,7 @@ body{
     z-index: 1;
 }
 
-.noShotsYet{
+.noShow{
     align-self:  flex-end;
     margin: 3px;
     padding: 6px;
@@ -36,7 +26,7 @@ body{
     opacity: 0;
 }
 
-.yesShotsYet{
+.yesShow{
     align-self:  flex-end;
     margin: 3px;
     padding: 6px;
@@ -47,7 +37,7 @@ body{
     z-index: 1;
 }
 
-.shootButton{
+.aButton{
     align-self: flex-end;
     padding: 6px;
     margin: 6px;
@@ -88,10 +78,10 @@ body{
 
 }
 
-.gameHeading{
+.infoBar{
     height: 100px;
     text-align: center;
-    padding-top: 40px;
+    padding-top: 5px;
     align-content: center;
     align-items: center;
     flex-basis: 100%;

@@ -1,38 +1,70 @@
 
 
+function Team(props){
 
-class Team extends React.Component {
+    let statClass = (props.shots === 0 ? "noShow" : "yesShow");
 
-    constructor(props) {
-        super(props);
+    return(
+        <div className="teamSquare" style={{backgroundImage: `url(${props.logo})`}}  >
+                <div className="innerTeamSquare">
+                    <span className="itIsAThing">shots: {props.shots}</span>
+                    <span className="itIsAThing">score: {props.score}</span>
+                </div>
+
+
+                <div className="innerTeamSquare">
+                    <button className="aButton" onClick={(event) => props.shotHandler(event, props.teamNumber)}>shoot</button>
+                    <span className={statClass}>acc: {props.shotPercentage}%</span>
+                </div>
+            </div>
+    )
+}
+
+class Game extends React.Component{
+    constructor(props){
+        super(props)
 
         this.state = {
-            shots: 0,
-            score: 0,
-            imageStyle: {
-                backgroundImage: `url(${this.props.logo})`
-            },
+            shots: [0,0],
+            score: [0,0],
+            shotPercentage: [0,0],
+            resets: 0,
             noScoreSound: new Audio('airplane+cessna.wav'),
             yesScoreSound: new Audio('claps3.wav'),
-            shotPercentage: 0
+            
         }
     }
 
-    shotHandler = (event) => {
-        let theScore = this.scoreUp(this.state.score);
-        let theShots = this.shotUp(this.state.shots);
+    shotHandler = (event, teamNumber) => {
+        let theScore = this.state.score.slice();
+        let theShots = this.state.shots.slice();
+        let theShotPercentage = this.state.shotPercentage.slice();
 
-        if(theScore > this.state.score){
+        theScore[teamNumber] = this.scoreUp(theScore[teamNumber]);
+        theShots[teamNumber] = this.shotUp(theShots[teamNumber]);
+
+        if(theScore[teamNumber] > this.state.score[teamNumber]){
             this.state.yesScoreSound.play();
         }
         else{
             this.state.noScoreSound.play();
         }
 
+        theShotPercentage[teamNumber] = ((theScore[teamNumber]/theShots[teamNumber])*100).toFixed(0)
+
         this.setState({
             shots: theShots,
             score: theScore,
-            shotPercentage: ((theScore/theShots)*100).toFixed(0)
+            shotPercentage: theShotPercentage
+        })
+    }
+
+    resetGame = (event) => {
+        this.setState({
+            shots: [0,0],
+            score: [0,0],
+            shotPercentage: [0,0],
+            resets: this.state.resets + 1,
         })
     }
 
@@ -42,60 +74,63 @@ class Team extends React.Component {
 
     scoreUp(curShot) {
         if((Math.random() > 0.2)){
-            // console.log(this.state.yesScoreSound)
-            // this.state.yesScoreSound.play();
             return (curShot + 1);
         }
         else{
-            // console.log(this.state.noScoreSound)
-            // this.state.noScoreSound.play();
             return (curShot);
         }
-        // return ( ? (curShot + 1) : curShot);
-    }
-
-    render() {
-        let statClass = (this.state.shots === 0 ? "noShotsYet" : "yesShotsYet");
-
-        return (
-            <div className="teamSquare" style={this.state.imageStyle}  >
-                <div className="innerTeamSquare">
-                    <span className="shots">shots: {this.state.shots}</span>
-                    <span className="score">score: {this.state.score}</span>
-                </div>
-
-
-                <div className="innerTeamSquare">
-                    <button className="shootButton" onClick={this.shotHandler}>shoot</button>
-                    <span className={statClass}>acc: {this.state.shotPercentage}%</span>
-                </div>
-            </div>
-        )
-    }
-}
-
-class Game extends React.Component{
-    constructor(props){
-        super(props)
     }
 
     render(){
+
+        let statClass = (
+            this.state.resets === 0 && this.state.shots[0] === 0 && this.state.shots[1] === 0 ? "noShow" : "yesShow"
+            );
+
         return(
             <div className="gameSpace">
-                <div className="gameHeading">Welcome to the {this.props.venue}</div>
-                <div classname="break"></div>
-                <div className="gameSpace">
-                    <Team name="Wales" logo="whales.jpg" />
-                    <Team name="Sailor" logo="sailors.jpg" />
+                <div className="infoBar">Welcome to the {this.props.venue}</div>
+                <div className="infoBar">
+                    <span className="itIsAThing">Home: {this.state.score[0]}</span>
+                    <span className="itIsAThing">Visiting: {this.state.score[1]}</span>
                 </div>
+                <div className="break"></div>
+                <div className="gameSpace">
+                    <Team
+                        teamNumber={0}
+                        name="Wales"
+                        logo="whales.jpg"
+                        shots={this.state.shots[0]}
+                        score={this.state.score[0]}
+                        shotPercentage={this.state.shotPercentage[0]}
+                        shotHandler={this.shotHandler}
+                    />
+                    <Team
+                        teamNumber={1}
+                        name="Sailor"
+                        logo="sailors.jpg"
+                        shots={this.state.shots[1]}
+                        score={this.state.score[1]}
+                        shotPercentage={this.state.shotPercentage[1]}
+                        shotHandler={this.shotHandler}
+                    />
+                                   <div className="break"></div>
+                    <div className="infoBar">
+                        <button className={"aButton "+ statClass} onClick={this.resetGame}>Reset</button>
+                        <span className={statClass}>Resets: {this.state.resets}</span>
+                    </div>
+                </div>
+ 
             </div>
         )
     }
 }
+
+
 function App(props) {
     return (
 
-            <Game venue="Water Way"/>
+            <Game venue="Water Way" />
 
     )
 }
