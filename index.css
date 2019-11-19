@@ -3,7 +3,7 @@ body{
 }
 
 
-.itIsAThing{
+.stateTextInfo{
     align-self:  flex-start;
     margin: 3px;
     padding: 6px;
@@ -23,7 +23,7 @@ body{
     font-size: 30px;
     color: darkgray;
     z-index: 1;
-    opacity: 0;
+    visibility: hidden;
 }
 
 .yesShow{
@@ -75,7 +75,6 @@ body{
     background-color: black;
     display: flex;
     flex-wrap: wrap;
-
 }
 
 .infoBar{
@@ -85,15 +84,9 @@ body{
     align-content: center;
     align-items: center;
     flex-basis: 100%;
-
-
 }
 
 .gameSpace{
     height: 400px;
 }
 
-.break{
-    flex-basis: 100%;
-    height: 0;
-}
